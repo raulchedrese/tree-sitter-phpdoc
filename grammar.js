@@ -24,9 +24,12 @@ module.exports = grammar({
     ),
 
     _begin: $ => token(seq('/**', repeat('*'))),
-  
+
     tag: $ => choice(
-      seq($.tag_name, optional($.description)),
+      seq(
+          alias($._simple_tag, $.tag_name),
+          optional($.description)
+      ),
 
       $._author_tag,
       $._global_tag,
@@ -40,6 +43,22 @@ module.exports = grammar({
 
       $._version_tag,
       $._variable_tag_with_type,
+    ),
+
+    _simple_tag: $ => choice(
+        '@api',
+        '@category',
+        '@copyright',
+        '@example',
+        '@filesource',
+        '@ignore',
+        '@license',
+        '@package',
+        '@source',
+        '@subpackage',
+        '@todo',
+        '@uses',
+        '@version',
     ),
 
     _author_tag: $ => seq(
@@ -154,9 +173,7 @@ module.exports = grammar({
     author_name: $ => /[a-zA-Zα-ωΑ-Ωµ0-9_][ a-zA-Zα-ωΑ-Ωµ0-9_]*/,
 
     email_address: $ => /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+/,
-  
-    tag_name: $ => choice(...phpdoc_tags().map(tag => `@${tag}`)),
-  
+
     description: $ => seq(
       repeat1(choice($.text, $.inline_tag)),
     ),
@@ -205,28 +222,10 @@ module.exports = grammar({
     static: $ => 'static',
 
     variable_name: $ => seq('$', $._name),
-  
+
     _end: $ => '*/',
   },
 })
-
-function phpdoc_tags() {
-  return [
-    'api',
-    'category',
-    'copyright',
-    'example',
-    'filesource',
-    'ignore',
-    'license',
-    'package',
-    'source',
-    'subpackage',
-    'todo',
-    'uses',
-    'version',
-  ];
-}
 
 function sep1(rule, sep) {
   return seq(rule, repeat(seq(sep, rule)));

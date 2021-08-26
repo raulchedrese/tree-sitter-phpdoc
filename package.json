@@ -4,8 +4,7 @@
   "description": "PHPDoc grammar for tree-sitter",
   "main": "index.js",
   "scripts": {
-    "generate": "tree-sitter generate",
-    "test": "tree-sitter test"
+    "test": "./node_modules/.bin/tree-sitter generate && ./node_modules/.bin/tree-sitter test"
   },
   "repository": {
     "type": "git",
@@ -26,5 +25,8 @@
   },
   "dependencies": {
     "nan": "^2.14.0"
+  },
+  "tree-sitter": {
+    "scope": "comment.block.documentation.phpdoc.php"
   }
 }
