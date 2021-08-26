@@ -1,0 +1,141 @@
+=====================
+Empty docblock
+=====================
+/**
+ *
+ */
+---
+(program (document))
+
+=====================
+Docblock w/ no tags
+=====================
+/**
+ * Just a comment
+ *
+ * more comment here
+ */
+---
+(program (document (description (text) (text))))
+
+=====================
+@param
+=====================
+/**
+ * @param $foo
+ */
+---
+(program (document (tag (tag_name) (variable_name (name)))))
+
+=====================
+@param w/ description
+=====================
+/**
+ * @param $foo description
+ */
+---
+(program
+  (document
+    (tag
+      (tag_name)
+      (variable_name (name))
+      (description (text)))))
+
+=====================
+@param w/ primitive type
+=====================
+/**
+ * @param int $foo
+ */
+---
+(program
+  (document
+    (tag
+      (tag_name)
+      (type_list (primitive_type))
+      (variable_name (name)))))
+
+=====================
+@param w/ primitive type & description
+=====================
+/**
+ * @param int $foo description
+ */
+---
+(program
+  (document
+    (tag
+      (tag_name)
+      (type_list (primitive_type))
+      (variable_name (name))
+      (description (text)))))
+
+=====================
+@param w/ named type
+=====================
+/**
+* @param MyClass $foo
+*/
+---
+(program
+  (document
+    (tag
+      (tag_name)
+      (type_list (named_type (name)))
+      (variable_name (name)))))
+
+=====================
+@param w/ qualified type
+=====================
+/**
+* @param MyPackage\MyClass $foo
+*/
+---
+(program
+  (document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)))
+        )
+      (variable_name (name)))))
+
+=====================
+@api
+=====================
+/**
+ * @api
+ */
+---
+(program (document (tag (tag_name))))
+
+=====================
+Inline @var w/ primitive
+=====================
+/** @var int */
+---
+(program (document (tag (tag_name) (type_list (primitive_type)))))
+
+=====================
+Inline @var
+=====================
+/** @var MyClass */
+---
+(program (document (tag (tag_name) (type_list (named_type (name))))))
+
+=====================
+@var
+=====================
+/** @var MyNameSpace\MyClass */
+---
+(program
+  (document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type
+          (qualified_name
+            (namespace_name_as_prefix (namespace_name (name)))
+            (name)))))))

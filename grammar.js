@@ -1,3 +1,5 @@
+const PHP = require('tree-sitter-php/grammar');
+
 module.exports = grammar({
   name: 'phpdoc',
 
@@ -11,7 +13,12 @@ module.exports = grammar({
     token(repeat1(' ')),
   ],
 
-  word: $ => $._name,
+  conflicts: $ => [
+    [$.namespace_name],
+    [$.namespace_name_as_prefix],
+  ],
+
+  word: $ => $.name,
 
   rules: {
     program: $ => repeat1($.document),
@@ -120,7 +127,7 @@ module.exports = grammar({
       alias('@method', $.tag_name),
       optional($.static),
       optional($._type_name),
-      alias($._name, $.name),
+      $.name,
       '(',
       sep($.param, ','),
       ')',
@@ -134,7 +141,7 @@ module.exports = grammar({
         '@property-read',
         '@property-write',
       ), $.tag_name),
-      $._type_name,
+      optional($._type),
       $.variable_name,
       optional($.description),
     ),
@@ -165,7 +172,7 @@ module.exports = grammar({
 
     _var_tag: $ => seq(
       alias('@var', $.tag_name),
-      $._type_name,
+      $._type,
       optional($.variable_name),
       optional($.description),
     ),
@@ -194,7 +201,14 @@ module.exports = grammar({
 
     uri: $ => /\w+:(\/?\/?)[^\s}]+/,
 
-    _name: $ => /[_a-zA-Z\u00A1-\u00ff\$][_a-zA-Z\u00A1-\u00ff\$\d]*/,
+    name: $ => PHP.rules.name,
+    // PHP.rules._type creates an alias for $.type_list
+    _type: $ => PHP.rules._type,
+    union_type: $ => PHP.rules.union_type,
+    optional_type: $ => PHP.rules.optional_type,
+    _types: $ => PHP.rules._types,
+    named_type: $ => PHP.rules.named_type,
+    primitive_type: $ => PHP.rules.primitive_type,
 
     _type_name: $ => seq(
       alias($.qualified_name, $.type),
@@ -202,7 +216,7 @@ module.exports = grammar({
     ),
 
     param: $ => seq(
-      optional($._type_name),
+      optional($._type),
       $.variable_name,
       optional(seq(
         '=',
@@ -212,16 +226,14 @@ module.exports = grammar({
 
     param_value: $ => /[^, ][^,)]*/,
 
-    qualified_name: $ => seq(
-      $._namespace_name,
-      repeat('[]')
-    ),
+    qualified_name: $ => PHP.rules.qualified_name,
+    namespace_name_as_prefix: $ => PHP.rules.namespace_name_as_prefix,
+    namespace_name: $ => PHP.rules.namespace_name,
 
-    _namespace_name: $ => seq(repeat('\\'), sep1($._name, '\\')),
 
     static: $ => 'static',
 
-    variable_name: $ => seq('$', $._name),
+    variable_name: $ => PHP.rules.variable_name,
 
     _end: $ => '*/',
   },
