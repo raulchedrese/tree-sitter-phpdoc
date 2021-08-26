@@ -5,7 +5,7 @@ Empty docblock
  *
  */
 ---
-(program (document))
+(document)
 
 =====================
 Docblock w/ no tags
@@ -16,7 +16,7 @@ Docblock w/ no tags
  * more comment here
  */
 ---
-(program (document (description (text) (text))))
+(document (description (text) (text)))
 
 =====================
 @param
@@ -25,7 +25,7 @@ Docblock w/ no tags
  * @param $foo
  */
 ---
-(program (document (tag (tag_name) (variable_name (name)))))
+(document (tag (tag_name) (variable_name (name))))
 
 =====================
 @param w/ description
@@ -34,12 +34,11 @@ Docblock w/ no tags
  * @param $foo description
  */
 ---
-(program
-  (document
+(document
     (tag
       (tag_name)
       (variable_name (name))
-      (description (text)))))
+      (description (text))))
 
 =====================
 @param w/ primitive type
@@ -48,12 +47,11 @@ Docblock w/ no tags
  * @param int $foo
  */
 ---
-(program
-  (document
+(document
     (tag
       (tag_name)
       (type_list (primitive_type))
-      (variable_name (name)))))
+      (variable_name (name))))
 
 =====================
 @param w/ primitive type & description
@@ -62,13 +60,12 @@ Docblock w/ no tags
  * @param int $foo description
  */
 ---
-(program
-  (document
+(document
     (tag
       (tag_name)
       (type_list (primitive_type))
       (variable_name (name))
-      (description (text)))))
+      (description (text))))
 
 =====================
 @param w/ named type
@@ -77,12 +74,11 @@ Docblock w/ no tags
 * @param MyClass $foo
 */
 ---
-(program
-  (document
+(document
     (tag
       (tag_name)
       (type_list (named_type (name)))
-      (variable_name (name)))))
+      (variable_name (name))))
 
 =====================
 @param w/ qualified type
@@ -91,8 +87,7 @@ Docblock w/ no tags
 * @param MyPackage\MyClass $foo
 */
 ---
-(program
-  (document
+(document
     (tag
       (tag_name)
       (type_list
@@ -100,7 +95,7 @@ Docblock w/ no tags
                       (namespace_name_as_prefix (namespace_name (name)))
                       (name)))
         )
-      (variable_name (name)))))
+      (variable_name (name))))
 
 =====================
 @api
@@ -109,33 +104,32 @@ Docblock w/ no tags
  * @api
  */
 ---
-(program (document (tag (tag_name))))
+(document (tag (tag_name)))
 
 =====================
 Inline @var w/ primitive
 =====================
 /** @var int */
 ---
-(program (document (tag (tag_name) (type_list (primitive_type)))))
+(document (tag (tag_name) (type_list (primitive_type))))
 
 =====================
 Inline @var
 =====================
 /** @var MyClass */
 ---
-(program (document (tag (tag_name) (type_list (named_type (name))))))
+(document (tag (tag_name) (type_list (named_type (name)))))
 
 =====================
 @var
 =====================
 /** @var MyNameSpace\MyClass */
 ---
-(program
-  (document
+(document
     (tag
       (tag_name)
       (type_list
         (named_type
           (qualified_name
             (namespace_name_as_prefix (namespace_name (name)))
-            (name)))))))
+            (name))))))
