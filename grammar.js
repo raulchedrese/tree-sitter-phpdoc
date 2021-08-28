@@ -45,10 +45,19 @@ module.exports = grammar({
       $._see_tag,
       $._throws_tag,
       $._var_tag,
-
-      $._version_tag,
       $._variable_tag_with_type,
+      $._version_tag,
     ),
+
+    inline_tag: $ => prec(-1, seq(
+      '{',
+      choice(
+        $._internal_inline_tag,
+        $._link_inline_tag,
+        $._see_inline_tag,
+      ),
+      '}'
+    )),
 
     _simple_tag: $ => choice(
         '@api',
@@ -71,18 +80,6 @@ module.exports = grammar({
       optional(
         seq($.author_name, optional(seq('<', $.email_address, '>')))
       )
-    ),
-
-    _version_tag: $ => seq(
-      alias(
-        choice(
-          '@deprecated',
-          '@since',
-        ),
-        $.tag_name
-      ),
-      optional($.version),
-      optional($.description),
     ),
 
     _global_tag: $ => seq(
@@ -132,18 +129,6 @@ module.exports = grammar({
       optional($.description),
     ),
 
-    _variable_tag_with_type: $ => seq(
-      alias(choice(
-        '@param',
-        '@property',
-        '@property-read',
-        '@property-write',
-      ), $.tag_name),
-      optional($._type),
-      $.variable_name,
-      optional($.description),
-    ),
-
     _return_tag: $ => seq(
       alias('@return', $.tag_name),
       $._type_name,
@@ -175,6 +160,30 @@ module.exports = grammar({
       optional($.description),
     ),
 
+    _variable_tag_with_type: $ => seq(
+      alias(choice(
+        '@param',
+        '@property',
+        '@property-read',
+        '@property-write',
+      ), $.tag_name),
+      optional($._type),
+      $.variable_name,
+      optional($.description),
+    ),
+
+    _version_tag: $ => seq(
+      alias(
+        choice(
+          '@deprecated',
+          '@since',
+        ),
+        $.tag_name
+      ),
+      optional($.version),
+      optional($.description),
+    ),
+
     author_name: $ => /[a-zA-Zα-ωΑ-Ωµ0-9_][ a-zA-Zα-ωΑ-Ωµ0-9_]*/,
 
     email_address: $ => /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+/,
@@ -184,16 +193,6 @@ module.exports = grammar({
     ),
 
     text: $ => token(prec(-1, /[^@*\s\n{}][^\n{}*]*/)),
-
-    inline_tag: $ => prec(-1, seq(
-      '{',
-      choice(
-        $._internal_inline_tag,
-        $._link_inline_tag,
-        $._see_inline_tag,
-      ),
-      '}'
-    )),
 
     version: $ => /[\.0-9]+/,
 
