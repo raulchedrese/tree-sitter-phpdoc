@@ -1,5 +1,11 @@
 const PHP = require('tree-sitter-php/grammar');
 
+// PHPDoc reference: https://docs.phpdoc.org/3.0/guide/references/phpdoc/index.html
+// TODO array return types https://docs.phpdoc.org/3.0/guide/references/phpdoc/types.html#arrays
+// PHPDoc tags: https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/index.html#tag-reference
+// PHPDoc docs appear to use these conventions
+//   @verbatimElement [required element] [<optional element>]
+
 module.exports = grammar({
   name: 'phpdoc',
 
@@ -49,6 +55,7 @@ module.exports = grammar({
       $._version_tag,
     ),
 
+    // @inheritDoc (inline only)
     inline_tag: $ => prec(-1, seq(
       '{',
       choice(
@@ -59,6 +66,36 @@ module.exports = grammar({
       '}'
     )),
 
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/api.html
+    // @api
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/filesource.html
+    // @filesource
+
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/category.html
+    // @category [description]
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/copyright.html
+    // @copyright [description]
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/todo.html
+    // @todo [description]
+
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/subpackage.html
+    // @subpackage [name]
+
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/ignore.html
+    // @ignore [<description>]
+
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/example.html
+    // @example [location] [<start-line> [<number-of-lines>] ] [<description>]
+    // (also inline)
+
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/license.html
+    // @license [<url>] [name]
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/package.html
+    // @package [level 1]\\[level 2]\\[etc.]
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/source.html
+    // @source [<start-line> [<number-of-lines>] ] [<description>]
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/uses.html
+    // @uses [FQSEN] [<description>]
     _simple_tag: $ => choice(
         '@api',
         '@category',
@@ -75,6 +112,7 @@ module.exports = grammar({
         '@version',
     ),
 
+    // @author [name] [<email address>]
     _author_tag: $ => seq(
       alias('@author', $.tag_name),
       optional(
@@ -82,12 +120,15 @@ module.exports = grammar({
       )
     ),
 
+    // @global [Type] [name] (name w/o $)
+    // @global [Type] [description]
     _global_tag: $ => seq(
       alias('@global', $.tag_name),
       $._type_name,
       $.variable_name
     ),
 
+    // @internal [description]
     _internal_tag: $ => seq(
       alias('@internal', $.tag_name),
       optional($.description)
@@ -98,6 +139,7 @@ module.exports = grammar({
       alias($.text, $.description)
     ),
 
+    // @link [URI] [<description>]
     _link_tag: $ => seq(
       alias('@link', $.tag_name),
       choice(
@@ -118,6 +160,8 @@ module.exports = grammar({
       optional(alias($.text, $.description))
     ),
 
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/method.html#method
+    // @method [[static] return type] [name]([[type] [parameter]<, ...>]) [<description>]
     _method_tag: $ => seq(
       alias('@method', $.tag_name),
       optional($.static),
@@ -129,12 +173,16 @@ module.exports = grammar({
       optional($.description),
     ),
 
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/return.html
+    // @return [Type] [<description>]
     _return_tag: $ => seq(
       alias('@return', $.tag_name),
       $._type_name,
       optional($.description),
     ),
 
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/see.html
+    // @see [URI | FQSEN] [<description>]
     _see_tag: $ => seq(
       alias('@see', $.tag_name),
       $.uri,
@@ -147,12 +195,14 @@ module.exports = grammar({
       optional(alias($.text, $.description))
     ),
 
+    // @throws [Type] [<description>]
     _throws_tag: $ => seq(
       alias('@throws', $.tag_name),
       $._type_name,
       optional($.description),
     ),
 
+    // @var ["Type"] [element_name] [<description>]
     _var_tag: $ => seq(
       alias('@var', $.tag_name),
       $._type,
@@ -160,6 +210,10 @@ module.exports = grammar({
       optional($.description),
     ),
 
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/param.html
+    // @param [<Type>] [name] [<description>]
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/property.html
+    // @property[<-read|-write>] [Type] [name] [<description>]
     _variable_tag_with_type: $ => seq(
       alias(choice(
         '@param',
@@ -172,6 +226,9 @@ module.exports = grammar({
       optional($.description),
     ),
 
+    // @deprecated [<Semantic Version>] [<description>]
+    // @since [<Semantic Version>] [<description>]
+    // @version [<Semantic Version>] [<description>]
     _version_tag: $ => seq(
       alias(
         choice(
