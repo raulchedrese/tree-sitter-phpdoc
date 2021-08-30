@@ -38,8 +38,13 @@ module.exports = grammar({
     _begin: $ => token(seq('/**', repeat('*'))),
 
     tag: $ => choice(
+
+      $._simple_tag_without_description,
+      $._simple_tag_with_optional_description,
+      $._simple_tag_with_required_description,
+
       seq(
-          alias($._simple_tag, $.tag_name),
+          alias($._currently_incomplete_tags, $.tag_name),
           optional($.description)
       ),
 
@@ -57,7 +62,7 @@ module.exports = grammar({
       $._version_tag,
     ),
 
-    // @inheritDoc (inline only)
+    // @inheritDoc is inline only, has no description
     inline_tag: $ => prec(-1, seq(
       '{',
       choice(
@@ -69,23 +74,42 @@ module.exports = grammar({
       '}'
     )),
 
-    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/api.html
     // @api
-    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/filesource.html
     // @filesource
+    _simple_tag_without_description: $ => alias(
+      choice(
+        '@api',
+        '@filesource',
+      ),
+      $.tag_name
+    ),
 
-    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/category.html
+    // @ignore [<description>]
+    _simple_tag_with_optional_description: $ => seq(
+      alias(
+        '@ignore',
+        $.tag_name
+      ),
+      optional($.description)
+    ),
+
     // @category [description]
-    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/copyright.html
     // @copyright [description]
-    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/todo.html
     // @todo [description]
+    _simple_tag_with_required_description: $ => seq(
+      alias(
+        choice(
+          '@category',
+          '@copyright',
+          '@todo',
+        ),
+        $.tag_name
+      ),
+      $.description
+    ),
 
     // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/subpackage.html
     // @subpackage [name]
-
-    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/ignore.html
-    // @ignore [<description>]
 
     // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/example.html
     // @example [location] [<start-line> [<number-of-lines>] ] [<description>]
@@ -99,18 +123,12 @@ module.exports = grammar({
     // @source [<start-line> [<number-of-lines>] ] [<description>]
     // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/uses.html
     // @uses [FQSEN] [<description>]
-    _simple_tag: $ => choice(
-        '@api',
-        '@category',
-        '@copyright',
+    _currently_incomplete_tags: $ => choice(
         '@example',
-        '@filesource',
-        '@ignore',
         '@license',
         '@package',
         '@source',
         '@subpackage',
-        '@todo',
         '@uses'
     ),
 

@@ -19,6 +19,44 @@ Docblock w/ no tags
 (document (description (text) (text)))
 
 =====================
+Simple tags w/o description
+=====================
+/**
+ * @api
+ * @filesource
+ */
+---
+(document
+  (tag (tag_name))
+  (tag (tag_name)))
+
+=====================
+Simple tags w/ optional description
+=====================
+/**
+ * @ignore
+ * @ignore description
+ */
+---
+(document
+  (tag (tag_name))
+  (tag (tag_name) (description (text))))
+
+=====================
+Simple tags w/ required descriptions
+=====================
+/**
+ * @category description
+ * @copyright description
+ * @todo description
+ */
+---
+(document
+  (tag (tag_name) (description (text)))
+  (tag (tag_name) (description (text)))
+  (tag (tag_name) (description (text))))
+
+=====================
 Simple inline tags
 =====================
 /**
