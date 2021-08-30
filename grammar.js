@@ -133,11 +133,11 @@ module.exports = grammar({
     ),
 
     // @author [name] [<email address>]
+    // specs require email address to be wrapped in angle brackets
     _author_tag: $ => seq(
       alias('@author', $.tag_name),
-      optional(
-        seq($.author_name, optional(seq('<', $.email_address, '>')))
-      )
+      $.author_name,
+      optional(seq('<', $.email_address, '>'))
     ),
 
     // @global [Type] [name] (name w/o $)
@@ -267,9 +267,14 @@ module.exports = grammar({
       optional($.description),
     ),
 
-    author_name: $ => /[a-zA-Zα-ωΑ-Ωµ0-9_][ a-zA-Zα-ωΑ-Ωµ0-9_]*/,
+    // Match as words as possible, where a word is just a sequence of
+    // non-whitespace and non-< characters, separated by a space. (The non-<
+    // requirement makes sure this regex doesn't consume the <email> field.)
+    author_name: $ => /\S+( [^\s<]+)*/,
 
-    email_address: $ => /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+/,
+    // Simplisitic regex to match anything@anything.anything, where the last
+    // anything also doesn't include a closing angle bracket
+    email_address: $ => /\S+@\S+\.[^\s>]+/,
 
     description: $ => seq(
       repeat1(choice($.text, $.inline_tag)),
