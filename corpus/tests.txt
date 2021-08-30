@@ -19,6 +19,17 @@ Docblock w/ no tags
 (document (description (text) (text)))
 
 =====================
+Simple inline tags
+=====================
+/**
+ * {@inheritDoc}
+ */
+---
+(document
+  (description
+    (inline_tag (tag_name))))
+
+=====================
 @param
 =====================
 /**

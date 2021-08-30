@@ -47,11 +47,12 @@ module.exports = grammar({
       $._internal_tag,
       $._link_tag,
       $._method_tag,
+      $._param_tag,
+      $._property_tag,
       $._return_tag,
       $._see_tag,
       $._throws_tag,
       $._var_tag,
-      $._variable_tag_with_type,
       $._version_tag,
     ),
 
@@ -59,6 +60,7 @@ module.exports = grammar({
     inline_tag: $ => prec(-1, seq(
       '{',
       choice(
+        alias("@inheritDoc", $.tag_name),
         $._internal_inline_tag,
         $._link_inline_tag,
         $._see_inline_tag,
@@ -108,8 +110,7 @@ module.exports = grammar({
         '@source',
         '@subpackage',
         '@todo',
-        '@uses',
-        '@version',
+        '@uses'
     ),
 
     // @author [name] [<email address>]
@@ -170,6 +171,26 @@ module.exports = grammar({
       '(',
       sep($.param, ','),
       ')',
+
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/param.html
+    // @param [<Type>] [name] [<description>]
+    _param_tag: $ => seq(
+      alias('@param', $.tag_name),
+      optional($._type),
+      $.variable_name,
+      optional($.description),
+    ),
+
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/property.html
+    // @property[<-read|-write>] [Type] [name] [<description>]
+    _property_tag: $ => seq(
+      alias(choice(
+        '@property',
+        '@property-read',
+        '@property-write',
+      ), $.tag_name),
+      $._type,
+      $.variable_name,
       optional($.description),
     ),
 
@@ -210,22 +231,6 @@ module.exports = grammar({
       optional($.description),
     ),
 
-    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/param.html
-    // @param [<Type>] [name] [<description>]
-    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/property.html
-    // @property[<-read|-write>] [Type] [name] [<description>]
-    _variable_tag_with_type: $ => seq(
-      alias(choice(
-        '@param',
-        '@property',
-        '@property-read',
-        '@property-write',
-      ), $.tag_name),
-      optional($._type),
-      $.variable_name,
-      optional($.description),
-    ),
-
     // @deprecated [<Semantic Version>] [<description>]
     // @since [<Semantic Version>] [<description>]
     // @version [<Semantic Version>] [<description>]
@@ -234,6 +239,7 @@ module.exports = grammar({
         choice(
           '@deprecated',
           '@since',
+          '@version'
         ),
         $.tag_name
       ),
