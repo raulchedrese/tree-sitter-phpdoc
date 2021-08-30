@@ -215,3 +215,27 @@ Inline @var
         (parameter
           (type_list (primitive_type))
           (variable_name (name))))))
+
+=====================
+@deprecated, @since and @version
+=====================
+/**
+ * @deprecated
+ * @since 1.0
+ * @version 1.2.3
+ * @version 1.x
+ * @version 1.*
+ * @version 1.0-beta
+ * @version blah blah
+ * @since 1.2.3-beta blah blah
+ */
+---
+(document
+  (tag (tag_name))
+  (tag (tag_name) (version))
+  (tag (tag_name) (version))
+  (tag (tag_name) (version))
+  (tag (tag_name) (version))
+  (tag (tag_name) (version))
+  (tag (tag_name) (description (text)))
+  (tag (tag_name) (version) (description (text))))

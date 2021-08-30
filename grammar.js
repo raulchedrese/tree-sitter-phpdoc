@@ -282,7 +282,7 @@ module.exports = grammar({
 
     text: $ => token(prec(-1, /[^@*\s\n{}][^\n{}*]*/)),
 
-    version: $ => /[\.0-9]+/,
+    version: $ => /\d+(\.(\d+|[x*])){0,2}(-\w+)?/,
 
     uri: $ => /\w+:(\/?\/?)[^\s}]+/,
 
