@@ -20,6 +20,7 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    [$.primitive_type, $.static],
     [$.namespace_name],
     [$.namespace_name_as_prefix],
   ],
@@ -165,12 +166,13 @@ module.exports = grammar({
     // @method [[static] return type] [name]([[type] [parameter]<, ...>]) [<description>]
     _method_tag: $ => seq(
       alias('@method', $.tag_name),
+      // interpreting `[static]` as optional despite not being in [<...>]
       optional($.static),
-      optional($._type_name),
+      $._type,
       $.name,
-      '(',
-      sep($.param, ','),
-      ')',
+      $.parameters,
+      optional($.description),
+    ),
 
     // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/param.html
     // @param [<Type>] [name] [<description>]
@@ -275,16 +277,22 @@ module.exports = grammar({
       repeat(seq('|', alias($.qualified_name, $.type)))
     ),
 
-    param: $ => seq(
+    parameters: $ => seq(
+      '(',
+      sep($.parameter, ','),
+      ')',
+    ),
+
+    parameter: $ => seq(
       optional($._type),
       $.variable_name,
       optional(seq(
         '=',
-        $.param_value,
+        $.default_value,
       )),
     ),
 
-    param_value: $ => /[^, ][^,)]*/,
+    default_value: $ => /[^, ][^,)]*/,
 
     qualified_name: $ => PHP.rules.qualified_name,
     namespace_name_as_prefix: $ => PHP.rules.namespace_name_as_prefix,

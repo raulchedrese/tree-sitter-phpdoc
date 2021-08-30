@@ -144,3 +144,22 @@ Inline @var
           (qualified_name
             (namespace_name_as_prefix (namespace_name (name)))
             (name))))))
+
+=====================
+@method
+=====================
+/** @method MyNameSpace\MyClass methodName(int $param) */
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type
+          (qualified_name
+            (namespace_name_as_prefix (namespace_name (name)))
+            (name))))
+      (name)
+      (parameters
+        (parameter
+          (type_list (primitive_type))
+          (variable_name (name))))))
