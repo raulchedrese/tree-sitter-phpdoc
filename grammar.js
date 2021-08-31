@@ -144,7 +144,7 @@ module.exports = grammar({
     // @global [Type] [description]
     _global_tag: $ => seq(
       alias('@global', $.tag_name),
-      $._type_name,
+      $._type,
       $.variable_name
     ),
 
@@ -218,7 +218,7 @@ module.exports = grammar({
     // @return [Type] [<description>]
     _return_tag: $ => seq(
       alias('@return', $.tag_name),
-      $._type_name,
+      $._type,
       optional($.description),
     ),
 
@@ -239,7 +239,7 @@ module.exports = grammar({
     // @throws [Type] [<description>]
     _throws_tag: $ => seq(
       alias('@throws', $.tag_name),
-      $._type_name,
+      $._type,
       optional($.description),
     ),
 
