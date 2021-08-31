@@ -184,7 +184,7 @@ Inline @var
 (document (tag (tag_name) (type_list (named_type (name)))))
 
 =====================
-@var
+@var w/ named type
 =====================
 /** @var MyNameSpace\MyClass */
 ---
@@ -196,6 +196,73 @@ Inline @var
           (qualified_name
             (namespace_name_as_prefix (namespace_name (name)))
             (name))))))
+
+=====================
+@var w/ primitive array type
+=====================
+/** @var int[] */
+---
+(document
+    (tag
+      (tag_name)
+      (type_list (array_type (primitive_type)))))
+
+=====================
+@var w/ multidimensional primitive array type
+=====================
+/** @var int[][] */
+---
+(document
+    (tag
+      (tag_name)
+      (type_list (array_type (primitive_type)))))
+
+=====================
+@var w/ multiple primitive array type
+=====================
+/** @var int[]|string[]|null */
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (array_type (primitive_type))
+        (array_type (primitive_type))
+        (primitive_type))))
+
+=====================
+@var w/ named array type
+=====================
+/** @var MyNameSpace\MyClass[] */
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (array_type
+          (named_type
+            (qualified_name
+              (namespace_name_as_prefix (namespace_name (name)))
+              (name)))))))
+
+=====================
+@var w/ multiple named array type (plus primitive)
+=====================
+/** @var MyNameSpace\MyClass[]|MyNameSpace\MyOtherClass[]|null */
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (array_type (named_type
+          (qualified_name
+            (namespace_name_as_prefix (namespace_name (name)))
+            (name))))
+        (array_type (named_type
+          (qualified_name
+            (namespace_name_as_prefix (namespace_name (name)))
+            (name))))
+        (primitive_type))))
 
 =====================
 @method

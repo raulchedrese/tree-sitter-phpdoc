@@ -291,7 +291,17 @@ module.exports = grammar({
     _type: $ => PHP.rules._type,
     union_type: $ => PHP.rules.union_type,
     optional_type: $ => PHP.rules.optional_type,
-    _types: $ => PHP.rules._types,
+    // union_type uses _types, so we override it to be "regular" types (which
+    // aren't grouped under a parent node) or array types (which are)
+    _types: $ => choice(
+      $._regular_types,
+      alias($._array_types, $.array_type)
+    ),
+    _regular_types: $ => PHP.rules._types,
+    _array_types: $ => seq(
+      $._regular_types,
+      repeat1("[]")
+    ),
     named_type: $ => PHP.rules.named_type,
     primitive_type: $ => PHP.rules.primitive_type,
 
