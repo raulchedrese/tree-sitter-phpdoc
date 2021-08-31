@@ -247,7 +247,7 @@ module.exports = grammar({
     _var_tag: $ => seq(
       alias('@var', $.tag_name),
       $._type,
-      optional($.variable_name),
+      $.variable_name,
       optional($.description),
     ),
 
