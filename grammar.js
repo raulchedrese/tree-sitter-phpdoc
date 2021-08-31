@@ -267,6 +267,30 @@ module.exports = grammar({
       optional($.description),
     ),
 
+    // PHP.rules._type creates an alias for $.type_list
+    _type: $ => PHP.rules._type,
+    // union_type uses _types, so we override it to be "regular" types (which
+    // aren't grouped under a parent node) or array types (which are)
+    _types: $ => choice(
+      $._regular_types,
+      alias($._array_types, $.array_type)
+    ),
+    _regular_types: $ => PHP.rules._types,
+    _array_types: $ => seq(
+      $._regular_types,
+      repeat1("[]")
+    ),
+
+    name: $ => PHP.rules.name,
+    named_type: $ => PHP.rules.named_type,
+    namespace_name: $ => PHP.rules.namespace_name,
+    namespace_name_as_prefix: $ => PHP.rules.namespace_name_as_prefix,
+    optional_type: $ => PHP.rules.optional_type,
+    primitive_type: $ => PHP.rules.primitive_type,
+    qualified_name: $ => PHP.rules.qualified_name,
+    union_type: $ => PHP.rules.union_type,
+    variable_name: $ => PHP.rules.variable_name,
+
     // Match as words as possible, where a word is just a sequence of
     // non-whitespace and non-< characters, separated by a space. (The non-<
     // requirement makes sure this regex doesn't consume the <email> field.)
@@ -286,30 +310,6 @@ module.exports = grammar({
 
     uri: $ => /\w+:(\/?\/?)[^\s}]+/,
 
-    name: $ => PHP.rules.name,
-    // PHP.rules._type creates an alias for $.type_list
-    _type: $ => PHP.rules._type,
-    union_type: $ => PHP.rules.union_type,
-    optional_type: $ => PHP.rules.optional_type,
-    // union_type uses _types, so we override it to be "regular" types (which
-    // aren't grouped under a parent node) or array types (which are)
-    _types: $ => choice(
-      $._regular_types,
-      alias($._array_types, $.array_type)
-    ),
-    _regular_types: $ => PHP.rules._types,
-    _array_types: $ => seq(
-      $._regular_types,
-      repeat1("[]")
-    ),
-    named_type: $ => PHP.rules.named_type,
-    primitive_type: $ => PHP.rules.primitive_type,
-
-    _type_name: $ => seq(
-      alias($.qualified_name, $.type),
-      repeat(seq('|', alias($.qualified_name, $.type)))
-    ),
-
     parameters: $ => seq(
       '(',
       sep($.parameter, ','),
@@ -327,14 +327,7 @@ module.exports = grammar({
 
     default_value: $ => /[^, ][^,)]*/,
 
-    qualified_name: $ => PHP.rules.qualified_name,
-    namespace_name_as_prefix: $ => PHP.rules.namespace_name_as_prefix,
-    namespace_name: $ => PHP.rules.namespace_name,
-
-
     static: $ => 'static',
-
-    variable_name: $ => PHP.rules.variable_name,
 
     _end: $ => '*/',
   },
