@@ -151,7 +151,7 @@ module.exports = grammar({
     // @internal [description]
     _internal_tag: $ => seq(
       alias('@internal', $.tag_name),
-      optional($.description)
+      $.description
     ),
 
     _internal_inline_tag: $ => seq(
@@ -184,7 +184,7 @@ module.exports = grammar({
     // @method [[static] return type] [name]([[type] [parameter]<, ...>]) [<description>]
     _method_tag: $ => seq(
       alias('@method', $.tag_name),
-      // interpreting `[static]` as optional despite not being in [<...>]
+      // `[static]` is interpreted as optional despite not being in [<...>]
       optional($.static),
       $._type,
       $.name,
