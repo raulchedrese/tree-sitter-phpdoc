@@ -273,12 +273,28 @@ module.exports = grammar({
     // aren't grouped under a parent node) or array types (which are)
     _types: $ => choice(
       $._regular_types,
-      alias($._array_types, $.array_type)
+      alias($._phpdoc_array_types, $.array_type),
+      alias($._psalm_generic_array_types, $.array_type),
+      alias($._psalm_list_array_types, $.array_type)
     ),
     _regular_types: $ => PHP.rules._types,
-    _array_types: $ => seq(
+    _phpdoc_array_types: $ => seq(
       $._regular_types,
       repeat1("[]")
+    ),
+    _psalm_generic_array_types: $ => seq(
+      field('array', $._regular_types),
+      "<",
+      field('key', $._regular_types),
+      ",",
+      field('value', $._regular_types),
+      ">"
+    ),
+    _psalm_list_array_types: $ => seq(
+      field('array', choice(alias("list", $.primitive_type), $._regular_types)),
+      "<",
+      field('value', $._regular_types),
+      ">"
     ),
 
     name: $ => PHP.rules.name,
