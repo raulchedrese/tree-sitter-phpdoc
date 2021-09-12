@@ -141,6 +141,10 @@
         {
           "type": "SYMBOL",
           "name": "_version_tag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_phpunit_tag"
         }
       ]
     },
@@ -847,6 +851,161 @@
         }
       ]
     },
+    "_phpunit_tag": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "@after"
+              },
+              {
+                "type": "STRING",
+                "value": "@afterClass"
+              },
+              {
+                "type": "STRING",
+                "value": "@annotation"
+              },
+              {
+                "type": "STRING",
+                "value": "@backupGlobals"
+              },
+              {
+                "type": "STRING",
+                "value": "@backupStaticAttributes"
+              },
+              {
+                "type": "STRING",
+                "value": "@before"
+              },
+              {
+                "type": "STRING",
+                "value": "@beforeClass"
+              },
+              {
+                "type": "STRING",
+                "value": "@codeCoverageIgnore"
+              },
+              {
+                "type": "STRING",
+                "value": "@codeCoverageIgnore*"
+              },
+              {
+                "type": "STRING",
+                "value": "@codeCoverageIgnoreEnd"
+              },
+              {
+                "type": "STRING",
+                "value": "@codeCoverageIgnoreStart"
+              },
+              {
+                "type": "STRING",
+                "value": "@covers"
+              },
+              {
+                "type": "STRING",
+                "value": "@coversDefaultClass"
+              },
+              {
+                "type": "STRING",
+                "value": "@coversDefaultClass to shorten annotations"
+              },
+              {
+                "type": "STRING",
+                "value": "@coversNothing"
+              },
+              {
+                "type": "STRING",
+                "value": "@dataProvider"
+              },
+              {
+                "type": "STRING",
+                "value": "@depends"
+              },
+              {
+                "type": "STRING",
+                "value": "@depends annotation to express dependencies"
+              },
+              {
+                "type": "STRING",
+                "value": "@doesNotPerformAssertions"
+              },
+              {
+                "type": "STRING",
+                "value": "@group"
+              },
+              {
+                "type": "STRING",
+                "value": "@large"
+              },
+              {
+                "type": "STRING",
+                "value": "@medium"
+              },
+              {
+                "type": "STRING",
+                "value": "@preserveGlobalState"
+              },
+              {
+                "type": "STRING",
+                "value": "@requires"
+              },
+              {
+                "type": "STRING",
+                "value": "@requires usages"
+              },
+              {
+                "type": "STRING",
+                "value": "@runInSeparateProcess"
+              },
+              {
+                "type": "STRING",
+                "value": "@runTestsInSeparateProcesses"
+              },
+              {
+                "type": "STRING",
+                "value": "@small"
+              },
+              {
+                "type": "STRING",
+                "value": "@test"
+              },
+              {
+                "type": "STRING",
+                "value": "@testWith"
+              },
+              {
+                "type": "STRING",
+                "value": "@testdox"
+              },
+              {
+                "type": "STRING",
+                "value": "@ticket"
+              }
+            ]
+          },
+          "named": true,
+          "value": "tag_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "description"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "_type": {
       "type": "ALIAS",
       "content": {
@@ -867,7 +1026,25 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_array_types"
+            "name": "_phpdoc_array_types"
+          },
+          "named": true,
+          "value": "array_type"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_psalm_generic_array_types"
+          },
+          "named": true,
+          "value": "array_type"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_psalm_list_array_types"
           },
           "named": true,
           "value": "array_type"
@@ -891,7 +1068,7 @@
         }
       ]
     },
-    "_array_types": {
+    "_phpdoc_array_types": {
       "type": "SEQ",
       "members": [
         {
@@ -904,6 +1081,90 @@
             "type": "STRING",
             "value": "[]"
           }
+        }
+      ]
+    },
+    "_psalm_generic_array_types": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "array",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_regular_types"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "FIELD",
+          "name": "key",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_regular_types"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_regular_types"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
+    "_psalm_list_array_types": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "array",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "STRING",
+                  "value": "list"
+                },
+                "named": true,
+                "value": "primitive_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_regular_types"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_regular_types"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ">"
         }
       ]
     },
