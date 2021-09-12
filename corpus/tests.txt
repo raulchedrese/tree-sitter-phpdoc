@@ -349,3 +349,19 @@ Psalm style array types
   (tag (tag_name) (version))
   (tag (tag_name) (description (text)))
   (tag (tag_name) (version) (description (text))))
+
+=====================
+Basic phpunit tag support
+=====================
+/**
+ * @test
+ * @dataProvider
+ * @group api
+ */
+---
+(document
+  (tag (tag_name))
+  (tag (tag_name))
+  (tag
+    (tag_name)
+    (description (text))))

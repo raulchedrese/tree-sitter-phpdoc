@@ -60,6 +60,8 @@ module.exports = grammar({
       $._throws_tag,
       $._var_tag,
       $._version_tag,
+
+      $._phpunit_tag
     ),
 
     // @inheritDoc is inline only, has no description
@@ -264,6 +266,53 @@ module.exports = grammar({
         $.tag_name
       ),
       optional($.version),
+      optional($.description),
+    ),
+
+    // partial support for phpunit tags
+    // TODO id the "core" tags and flesh out their support (ie some tags take
+    // no text, some take types, etc)
+    // curl https://phpunit.readthedocs.io/en/9.5/annotations.html | grep '&#64;' | sed 's/&#64;/@/g' | sed -E 's/^.+@/@/' | sed -E 's/<.+$//' | sort | uniq
+    _phpunit_tag: $ => seq(
+      alias(
+        choice(
+          '@after',
+          '@afterClass',
+          '@annotation',
+          // '@author', // already part of phpdoc
+          '@backupGlobals',
+          '@backupStaticAttributes',
+          '@before',
+          '@beforeClass',
+          '@codeCoverageIgnore',
+          '@codeCoverageIgnore*',
+          '@codeCoverageIgnoreEnd',
+          '@codeCoverageIgnoreStart',
+          '@covers',
+          '@coversDefaultClass',
+          '@coversDefaultClass to shorten annotations',
+          '@coversNothing',
+          '@dataProvider',
+          '@depends',
+          '@depends annotation to express dependencies',
+          '@doesNotPerformAssertions',
+          '@group',
+          '@large',
+          '@medium',
+          '@preserveGlobalState',
+          '@requires',
+          '@requires usages',
+          '@runInSeparateProcess',
+          '@runTestsInSeparateProcesses',
+          '@small',
+          '@test',
+          '@testWith',
+          '@testdox',
+          '@ticket',
+          // '@uses', // already part of phpdoc
+        ),
+        $.tag_name
+      ),
       optional($.description),
     ),
 
