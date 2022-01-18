@@ -161,6 +161,179 @@ Simple inline tags
       (variable_name (name))))
 
 =====================
+@param w/ qualified type & description
+=====================
+/**
+* @param MyPackage\MyClass $foo bar baz
+*/
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)))
+        )
+      (variable_name (name))
+      (description (text))))
+
+=====================
+@param w/ global qualified type
+=====================
+/**
+* @param \MyPackage\MyClass $foo
+*/
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)))
+        )
+      (variable_name (name))))
+
+=====================
+@param w/ global qualified type & description
+=====================
+/**
+* @param \MyPackage\MyClass $foo bar baz
+*/
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)))
+        )
+      (variable_name (name))
+      (description (text))))
+
+=====================
+@return w/ primitive type
+=====================
+/**
+ * @return int
+ */
+---
+(document
+    (tag
+      (tag_name)
+      (type_list (primitive_type))))
+
+=====================
+@return w/ primitive type & description
+=====================
+/**
+ * @return int $foo description
+ */
+---
+(document
+    (tag
+      (tag_name)
+      (type_list (primitive_type))
+      (description (text))))
+
+=====================
+@return w/ named type
+=====================
+/**
+* @return MyClass
+*/
+---
+(document
+    (tag
+      (tag_name)
+      (type_list (named_type (name)))))
+
+=====================
+@return w/ qualified type
+=====================
+/**
+* @return MyPackage\MyClass
+*/
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)))
+        )))
+
+=====================
+@return w/ qualified type & description
+=====================
+/**
+* @return MyPackage\MyClass foo bar
+*/
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)))
+        )
+      (description (text))))
+
+=====================
+@return w/ global qualified type
+=====================
+/**
+* @return \MyPackage\MyClass
+*/
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)))
+        )))
+
+=====================
+@return w/ global qualified type & description
+=====================
+/**
+* @return \MyPackage\MyClass foo bar
+*/
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)))
+        )
+      (description (text))))
+
+=====================
+@return w/ global qualified type & description w/ backslash
+=====================
+/**
+* @return \MyPackage\MyClass foo\bar
+*/
+---
+(document
+    (tag
+      (tag_name)
+      (type_list
+        (named_type (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)))
+        )
+      (description (text))))
+
+=====================
 @api
 =====================
 /**
