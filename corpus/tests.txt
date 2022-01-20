@@ -343,21 +343,44 @@ Simple inline tags
 (document (tag (tag_name)))
 
 =====================
-Inline @var w/ primitive
+@var
 =====================
 /** @var int $foo */
 ---
 (document (tag (tag_name) (type_list (primitive_type)) (variable_name (name))))
 
 =====================
-Inline @var
+@var w/ description
+=====================
+/** @var int $foo bar baz */
+---
+(document
+    (tag
+        (tag_name)
+        (type_list (primitive_type))
+        (variable_name (name))
+        (description (text))))
+
+=====================
+@var w/o variable name
+=====================
+/** @var int bar baz */
+---
+(document
+    (tag
+        (tag_name)
+        (type_list (primitive_type))
+        (description (text))))
+
+=====================
+@var w/ named type
 =====================
 /** @var MyClass $foo */
 ---
 (document (tag (tag_name) (type_list (named_type (name))) (variable_name (name))))
 
 =====================
-@var w/ named type
+@var w/ namespaced type
 =====================
 /** @var MyNameSpace\MyClass $foo */
 ---

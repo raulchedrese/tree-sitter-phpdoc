@@ -245,11 +245,14 @@ module.exports = grammar({
       optional($.description),
     ),
 
+    // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/var.html
     // @var ["Type"] [element_name] [<description>]
+    // note that `element_name` can be either required or optional depending on
+    // context, so we just treat it as optional
     _var_tag: $ => seq(
       alias('@var', $.tag_name),
       $._type,
-      $.variable_name,
+      optional($.variable_name),
       optional($.description),
     ),
 

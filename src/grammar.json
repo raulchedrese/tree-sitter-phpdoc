@@ -783,8 +783,16 @@
           "name": "_type"
         },
         {
-          "type": "SYMBOL",
-          "name": "variable_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "variable_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
