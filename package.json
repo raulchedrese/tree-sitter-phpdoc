@@ -29,7 +29,7 @@
     "tree-sitter-php": "github:tree-sitter/tree-sitter-php#50c6951"
   },
   "dependencies": {
-    "nan": "^2.14.0"
+    "nan": "^2.15.0"
   },
   "tree-sitter": [
     {
