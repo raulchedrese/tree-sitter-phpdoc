@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-phpdoc",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "PHPDoc grammar for tree-sitter",
   "main": "index.js",
   "scripts": {
