@@ -68,6 +68,19 @@ Simple inline tags
     (inline_tag (tag_name))))
 
 =====================
+Curly braces in description don't conflict w/ inline tags
+=====================
+/**
+ * Example: `if ($foo) { $bar; }`
+ * {@inheritDoc}
+ */
+---
+(document
+  (description
+    (text)
+    (inline_tag (tag_name))))
+
+=====================
 @author
 =====================
 /**

@@ -372,7 +372,7 @@ module.exports = grammar({
       repeat1(choice($.text, $.inline_tag)),
     ),
 
-    text: $ => token(prec(-1, /[^@*\s\n{}\\][^\n{}*]*/)),
+    text: $ => token(prec(-1, /[^@*\s\n\\][^\n*]*/)),
 
     version: $ => /\d+(\.(\d+|[x*])){0,2}(-\w+)?/,
 
