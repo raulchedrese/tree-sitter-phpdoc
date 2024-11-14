@@ -1602,8 +1602,7 @@
                       "type": "ALIAS",
                       "content": {
                         "type": "PATTERN",
-                        "value": "as",
-                        "flags": "i"
+                        "value": "as"
                       },
                       "named": false,
                       "value": "as"
@@ -2284,8 +2283,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "PATTERN",
-                "value": "namespace",
-                "flags": "i"
+                "value": "namespace"
               },
               "named": false,
               "value": "namespace"
@@ -2303,8 +2301,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "PATTERN",
-                "value": "namespace",
-                "flags": "i"
+                "value": "namespace"
               },
               "named": false,
               "value": "namespace"
@@ -2366,8 +2363,7 @@
           "type": "ALIAS",
           "content": {
             "type": "PATTERN",
-            "value": "callable",
-            "flags": "i"
+            "value": "callable"
           },
           "named": false,
           "value": "callable"
@@ -2892,3 +2888,4 @@
   "inline": [],
   "supertypes": []
 }
+
