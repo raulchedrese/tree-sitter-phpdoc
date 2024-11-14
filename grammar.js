@@ -242,16 +242,15 @@ module.exports = grammar({
 
     // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/method.html#method
     // @method [[static] return type] [name]([[type] [parameter]<, ...>]) [<description>]
-    _method_tag: ($) =>
-      seq(
-        alias('@method', $.tag_name),
-        // `[static]` is interpreted as optional despite not being in [<...>]
-        optional($.static),
-        optional($._type),
-        $.name,
-        $.parameters,
-        optional($.description),
-      ),
+    _method_tag: $ => seq(
+      alias('@method', $.tag_name),
+      // `[static]` is interpreted as optional despite not being in [<...>]
+      optional($.static),
+      optional($._type),
+      $.name,
+      $.parameters,
+      optional($.description),
+    ),
 
     // https://docs.phpdoc.org/3.0/guide/references/phpdoc/tags/param.html
     // @param [<Type>] [name] [<description>]
