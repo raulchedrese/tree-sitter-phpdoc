@@ -1,4 +1,5 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "phpdoc",
   "word": "name",
   "rules": {
@@ -1602,7 +1603,8 @@
                       "type": "ALIAS",
                       "content": {
                         "type": "PATTERN",
-                        "value": "as"
+                        "value": "as",
+                        "flags": "i"
                       },
                       "named": false,
                       "value": "as"
@@ -2283,7 +2285,8 @@
               "type": "ALIAS",
               "content": {
                 "type": "PATTERN",
-                "value": "namespace"
+                "value": "namespace",
+                "flags": "i"
               },
               "named": false,
               "value": "namespace"
@@ -2301,7 +2304,8 @@
               "type": "ALIAS",
               "content": {
                 "type": "PATTERN",
-                "value": "namespace"
+                "value": "namespace",
+                "flags": "i"
               },
               "named": false,
               "value": "namespace"
@@ -2363,7 +2367,8 @@
           "type": "ALIAS",
           "content": {
             "type": "PATTERN",
-            "value": "callable"
+            "value": "callable",
+            "flags": "i"
           },
           "named": false,
           "value": "callable"
@@ -2886,6 +2891,6 @@
     }
   ],
   "inline": [],
-  "supertypes": []
+  "supertypes": [],
+  "reserved": {}
 }
-
